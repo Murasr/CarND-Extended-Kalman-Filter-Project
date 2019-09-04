@@ -33,9 +33,7 @@ int main() {
   uWS::Hub h;
 
   // Create a Kalman Filter instance
-  FusionEKF fusionEKF;
-
-  // used to compute the RMSE later
+  FusionEKF    fusionEKF; // used to compute the RMSE later
   Tools tools;
   vector<VectorXd> estimations;
   vector<VectorXd> ground_truth;
@@ -126,8 +124,19 @@ int main() {
           estimate(3) = v2;
         
           estimations.push_back(estimate);
+          
+        //  std::cout << "Expected : " << gt_values <<std::endl;
+        //  std::cout << "Obtained : " << estimate <<std::endl;
+          
 
           VectorXd RMSE = tools.CalculateRMSE(estimations, ground_truth);
+          
+         // VectorXd expected(4);
+         // expected << 0.11, 0.11, 0.52, 0.52;
+         // if(RMSE[0] > expected[0] || RMSE[1] > expected[1] || RMSE[2] > expected[2] || RMSE[3] > expected[3])
+         // {
+         //   std::cout << "unexpected RMSE " << RMSE << std::endl;
+         // }
 
           json msgJson;
           msgJson["estimate_x"] = p_x;
